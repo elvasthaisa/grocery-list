@@ -1,22 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import GroceryList from "./GroceryList";
+import "./styles.css";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Grocery list</h1>
+        <h3>Please submit a new item for the list</h3>
+        <GroceryList />
       </header>
     </div>
   );
