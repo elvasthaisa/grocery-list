@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { ListItem } from "./SubmitSectionStyles";
+import { ListItem, Row } from "./SubmitSectionStyles";
+import Counter from "./Counter";
+
 
 const SubmitSection = () => {
   const [list, setList] = useState([]);
@@ -9,24 +11,45 @@ const SubmitSection = () => {
     setNewItem(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleItemSubmit = (e) => {
     e.preventDefault();
 
     if (newItem !== "") {
       setNewItem("");
-      setList((prevList) => [...prevList, newItem]);
+      setList((prevList) => [...prevList, {name: newItem, amount: 0}]);
     }
   };
+
+  const addAmountToItem = (name, valueToAdd) => {
+    setList(list.map(item => {
+      if (item.name === name) {
+        return {
+          ...item, 
+          amount: valueToAdd + item.amount
+        }
+      }
+
+      return item
+    }))
+  };
+
+  const incrementItem = (name) => addAmountToItem(name, 1);
+  const decrementItem = (name) => addAmountToItem(name, -1);
 
   return (
     <div>
       <input type="text" onChange={handleInputChange} value={newItem} />
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleItemSubmit}>Submit</button>
 
-      {list.map((item, index) => (
-        <div>
-          <ListItem key={index}>{item}</ListItem>
-        </div>
+      {list.map((item) => (
+        <Row key={item.name}>
+          <ListItem>{item.name}</ListItem>
+          <Counter 
+            incrementItem={() => incrementItem(item.name)}
+            decrementItem={() => decrementItem(item.name)}
+            amount={item.amount}
+          />
+        </Row>
       ))}
     </div>
   );
